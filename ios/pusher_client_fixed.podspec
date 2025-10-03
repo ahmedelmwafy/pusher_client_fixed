@@ -7,22 +7,27 @@ pubspec = YAML.load_file(File.join('..', 'pubspec.yaml'))
 libraryVersion = pubspec['version'].gsub('+', '-')
 
 Pod::Spec.new do |s|
-  s.name             = 'pusher_client_fixed'
-  s.version          = libraryVersion
-  s.summary          = 'A pusher client fixed plugin.'
+  s.name             = 'PusherSwiftWithEncryption'
+  s.version          = '10.1.5'
+  s.summary          = 'Pusher client library for iOS with end-to-end encryption support.'
   s.description      = <<-DESC
-A pusher client fixed plugin that works.
-                       DESC
-  s.homepage         = 'https://github.com/chinloyal/pusher_client'
-  s.license          = { :file => '../LICENSE', :type => 'MIT' }
-  s.author           = { 'Romario Chinloy' => 'jordain7@protonmail.com' }
-  s.source           = { :path => '.' }
-  s.source_files = 'Classes/**/*'
-  s.dependency 'Flutter'
-  s.dependency 'PusherSwiftWithEncryption', '10.1.5'
-  s.platform = :ios, '9.0'
+Pusher client library for iOS (Swift), including support for private and presence channels,
+plus end-to-end encrypted channels using TweetNacl.
+  DESC
+  s.homepage         = 'https://github.com/ahmedelmwafy/PusherSwiftWithEncryption'
+  s.license          = { :type => 'MIT', :file => 'LICENSE' }
+  s.author           = { 'Pusher' => 'support@pusher.com' }
+  s.source           = { :git => 'https://github.com/ahmedelmwafy/PusherSwiftWithEncryption.git', :tag => s.version }
 
-  # Flutter.framework does not contain a i386 slice.
-  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
+  s.ios.deployment_target = '11.0'
   s.swift_version = '5.0'
+
+  s.source_files = 'Sources/**/*.{swift,h,m}'
+  s.exclude_files = 'Sources/Exclude'
+
+  s.dependency 'Starscream', '~> 4.0.4'
+  s.dependency 'ReachabilitySwift', '~> 5.0.0'
+  
+  # ✅ بدلنا الـ CTweetNacl عشان ييجي من فوركك
+  s.dependency 'CTweetNacl', :git => 'https://github.com/ahmedelmwafy/CTweetNacl.git'
 end
